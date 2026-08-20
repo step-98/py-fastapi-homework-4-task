@@ -1,6 +1,6 @@
 import os
 from datetime import date
-from config import get_s3_storage_client, get_settings, get_jwt_auth_manager, BaseAppSettings
+from config import get_s3_storage_client, get_jwt_auth_manager
 from database import UserModel, UserGroupEnum
 from database.models.accounts import UserProfileModel
 from exceptions import TokenExpiredError, InvalidTokenError, S3FileUploadError
