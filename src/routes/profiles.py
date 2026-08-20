@@ -35,13 +35,14 @@ async def user_profile(
         db: AsyncSession = Depends(get_db)
 ):
 
+
     try:
         decoded_token = jwt_manager.decode_access_token(token)
         current_user_id = decoded_token.get("user_id")
-    except TokenExpiredError:
+    except TokenExpiredError as error:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired.")
-    except InvalidTokenError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token.")
+    except InvalidTokenError as error:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(error))
 
     stmt = select(UserModel).options(joinedload(UserModel.group)).where(UserModel.id == current_user_id)
     result = await db.execute(stmt)
