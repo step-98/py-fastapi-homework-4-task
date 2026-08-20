@@ -34,12 +34,10 @@ async def user_profile(
         s3_client: S3StorageInterface = Depends(get_s3_storage_client),
         db: AsyncSession = Depends(get_db)
 ):
-
-
     try:
         decoded_token = jwt_manager.decode_access_token(token)
         current_user_id = decoded_token.get("user_id")
-    except TokenExpiredError as error:
+    except TokenExpiredError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired.")
     except InvalidTokenError as error:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(error))
