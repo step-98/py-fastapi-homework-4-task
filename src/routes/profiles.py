@@ -18,6 +18,7 @@ from pydantic import ValidationError
 
 router = APIRouter()
 
+
 @router.post("/users/{user_id}/profile/", response_model=ProfileResponseSchema, status_code=status.HTTP_201_CREATED)
 async def user_profile(
         user_id: int,
@@ -51,7 +52,10 @@ async def user_profile(
 
     is_admin = existing_user.group is not None and existing_user.group.name == UserGroupEnum.ADMIN
     if not is_admin and current_user_id != user_id:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You don't have permission to edit this profile.")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You don't have permission to edit this profile."
+        )
 
     stmt = select(UserProfileModel).where(UserProfileModel.user_id == user_id)
     result = await db.execute(stmt)
@@ -80,7 +84,6 @@ async def user_profile(
     except S3FileUploadError:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             detail="Failed to upload avatar. Please try again later.")
-
 
     try:
         profile = UserProfileModel(

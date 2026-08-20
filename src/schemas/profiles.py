@@ -9,6 +9,7 @@ from validation import (
     validate_birth_date
 )
 
+
 class ProfileCreateSchema(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -18,7 +19,6 @@ class ProfileCreateSchema(BaseModel):
     date_of_birth: date
     info: str
     avatar: UploadFile
-
 
     @field_validator("first_name", "last_name")
     @classmethod
