@@ -3,7 +3,7 @@ from datetime import date
 from config import get_s3_storage_client, get_settings, get_jwt_auth_manager, BaseAppSettings
 from database import UserModel, UserGroupEnum
 from database.models.accounts import UserProfileModel
-from exceptions import TokenExpiredError, BaseSecurityError, InvalidTokenError, S3FileUploadError
+from exceptions import TokenExpiredError, InvalidTokenError, S3FileUploadError
 from fastapi import APIRouter, HTTPException, status, Form, File, Depends, UploadFile
 from security.interfaces import JWTAuthManagerInterface
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -29,7 +29,6 @@ async def user_profile(
         info: str = Form(...),
         avatar: UploadFile = File(...),
         jwt_manager: JWTAuthManagerInterface = Depends(get_jwt_auth_manager),
-        settings: BaseAppSettings = Depends(get_settings),
         token: str = Depends(get_token),
         s3_client: S3StorageInterface = Depends(get_s3_storage_client),
         db: AsyncSession = Depends(get_db)
