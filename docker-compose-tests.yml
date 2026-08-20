@@ -25,6 +25,8 @@ services:
         condition: service_started
       minio:
         condition: service_healthy
+      minio_mc:
+        condition: service_completed_successfully
     volumes:
       - ./src:/usr/src/fastapi
     networks:
