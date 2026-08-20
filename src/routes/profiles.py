@@ -11,7 +11,7 @@ from database import get_db
 from security.http import get_token
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import joinedload
-from src.schemas.profiles import ProfileCreateSchema, ProfileResponseSchema
+from schemas.profiles import ProfileCreateSchema, ProfileResponseSchema
 from sqlalchemy import select
 from storages import S3StorageInterface
 from pydantic import ValidationError
