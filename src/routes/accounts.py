@@ -508,7 +508,9 @@ async def login_user(
         db.add(refresh_token)
         await db.flush()
         await db.commit()
-    except SQLAlchemyError:
+    except SQLAlchemyError as e:
+        import logging
+        logging.error(f"Login SQLAlchemyError: {e}", exc_info=True)
         await db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
