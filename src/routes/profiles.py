@@ -3,7 +3,7 @@ from datetime import date
 from config import get_s3_storage_client, get_jwt_auth_manager
 from database import UserModel, UserGroupEnum
 from database.models.accounts import UserProfileModel
-from exceptions import TokenExpiredError, InvalidTokenError, S3FileUploadError
+from exceptions import TokenExpiredError, InvalidTokenError, S3FileUploadError, BaseS3Error
 from fastapi import APIRouter, HTTPException, status, Form, File, Depends, UploadFile
 from security.interfaces import JWTAuthManagerInterface
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -79,7 +79,7 @@ async def user_profile(
 
     try:
         await s3_client.upload_file(file_name=avatar_path, file_data=file_content)
-    except S3FileUploadError:
+    except BaseS3Error:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             detail="Failed to upload avatar. Please try again later.")
 

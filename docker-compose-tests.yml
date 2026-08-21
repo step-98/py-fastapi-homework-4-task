@@ -22,7 +22,7 @@ services:
       - MINIO_STORAGE=theater-storage
     depends_on:
       mailhog:
-        condition: service_started
+        condition: service_healthy
       minio:
         condition: service_healthy
       minio_mc:
@@ -38,6 +38,11 @@ services:
     ports:
       - "8025:8025"
       - "1025:1025"
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:8025/api/v2/messages" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     networks:
       - theater_network_test
 
