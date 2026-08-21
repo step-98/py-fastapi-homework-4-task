@@ -32,3 +32,10 @@ class S3StorageInterface(ABC):
         :param file_name: The name of the file to be deleted.
         """
         pass
+
+    async def delete_file(self, file_name: str) -> None:
+        """
+        Delete a file from the storage.
+        :param file_name: The name of the file to be deleted.
+        """
+        pass

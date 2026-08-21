@@ -85,7 +85,7 @@ class S3StorageClient(S3StorageInterface):
         """
         try:
             async with self._session.client(
-                    "s3", endpoint_url=self._endpoint_url
+                "s3", endpoint_url=self._endpoint_url
             ) as client:
                 await client.delete_object(
                     Bucket=self._bucket_name,
